@@ -1,0 +1,19 @@
+#
+# Architecture:
+#
+KDIR := $(UCOS_II)/Ports/ARM/user/gcc/
+
+#
+# CPU:
+#
+CPU=
+
+#
+# Install location
+#
+INSTALL := $(PWD)/build/armuser/
+
+#
+# FLASH_PROGRAM 
+#
+FLASH_PROGRAM :=

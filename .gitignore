@@ -1,0 +1,11 @@
+.config
+*.o
+*.hex
+cscope*
+*.swp
+.vim*
+*.cmd
+*.mod
+*.mod.c
+*.ko
+application/example/build*

@@ -1,0 +1,19 @@
+#
+# Architecture:
+#
+KDIR := $(UCOS_II)/Ports/X86/klm/gcc/
+
+#
+# CPU:
+#
+CPU=
+
+#
+# Install location
+#
+INSTALL := $(PWD)/build/x86klm/
+
+#
+# FLASH_PROGRAM 
+#
+FLASH_PROGRAM :=

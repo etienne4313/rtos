@@ -1,0 +1,1 @@
+for each in configs/*; do rm -f .config; ln -s $each .config; make clean; make; make install; make clean; done

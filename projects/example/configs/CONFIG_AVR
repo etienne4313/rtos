@@ -1,0 +1,19 @@
+#
+# Architecture:
+#
+KDIR := $(UCOS_II)/Ports/AVR/Generic/gcc/
+
+#
+# CPU: mega328 OR mega2560 OR mega328_nano
+#
+CPU=mega328
+
+#
+# Install location
+#
+INSTALL := $(PWD)/build/avr/
+
+#
+# FLASH_PROGRAM Specify the program to be flashed
+#
+FLASH_PROGRAM := timer_wheel_test
