@@ -65,5 +65,6 @@ static inline void watchdog_enable(uint8_t x)
 /* OS */
 /******************************************************************************/
 #define HANDLE_EXIT() DIE(-1)
+#define OS_POLLING_EN	0u   /* OS works in polling mode or IRQ mode */
 
 #endif

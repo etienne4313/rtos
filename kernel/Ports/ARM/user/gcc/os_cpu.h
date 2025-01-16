@@ -62,7 +62,7 @@ typedef unsigned long OS_CPU_SR;
 #define	OS_ENTER_CRITICAL() { cpu_sr = 0; }
 #define	OS_EXIT_CRITICAL() do {\
 	cpu_sr = cpu_sr ; \
-	exit_critical(); \
+	poll(); \
 } while(0)
 
 /********************************************************************************************************

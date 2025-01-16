@@ -54,7 +54,7 @@ expiry:
 	goto expiry;
 }
 
-void poll_timer(cpu_cycle_t t)
+void poll_timer_wheel(cpu_cycle_t t)
 {
 	if(!current_w)
 		return;

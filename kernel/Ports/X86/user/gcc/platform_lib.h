@@ -71,6 +71,8 @@ static inline void watchdog_enable(int x){}
 	PRINT("RTOS exit\n"); \
 } while(0)
 
-void exit_critical(void);
+#define OS_POLLING_EN   1u   /* OS works in polling mode or IRQ mode */
+void rollback(void);
+extern int rtos_dead;
 
 #endif

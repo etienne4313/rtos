@@ -2,6 +2,7 @@
    The following are all fast versions of specific divisions
 Ref: http://www.hackersdelight.org/divcMore.pdf
  */
+unsigned int divu10(unsigned int n);
 unsigned int divu10(unsigned int n)
 {
 	unsigned long q, r;

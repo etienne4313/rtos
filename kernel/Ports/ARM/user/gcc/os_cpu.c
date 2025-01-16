@@ -90,73 +90,8 @@ void OS_TASK_SW()
 	OSIntCtxSw();
 }
 
-/*
- * The RTOS is running in polling mode e.g. no interrupts. This approach gives a big
- * portability advantage since there is no need to hook in the IRQ controller
- *
- * Most of the architecture support the concept of free running monotonic counter which is
- * function of the CPU frequency. On X86 there is the TSC counter and on ARM there is
- * arch_timer_read_counter(). In user-space similar behavior can be obtained via
- * clock_gettime(CLOCK_MONOTONIC, &tp);
- *
- * The monotonic timebase is calibrated at intialization time. The output from calibration
- * provides "cycle_per_os_tick" which correspond to the number of CPU cycle within a timer
- * period
- *
- * UcosII preemption model EX: TimerIRQ
- * <<< IRQ handle
- * OSIntEnter();
- * <<< Do stuff
- * OSTimeTick(); <<< Adjust RDY tasks
- *  OSIntExit();
- *   OS_SchedNew(); <<< Find high ready
- *   OSIntCtxSw(); <<< Context switch
- * 
- * Limitation / work-around:
- *  A) We need to call OSTimeTick manually every so often to maintain the timebase. There is
- *     no real preemption
- * 	B) Low priority task running spinloop will block all timestamp and scheduling operation
- * 		- Easy to catch during code inspection
- * 	B) All Tasks going to sleep; Here the idle task will run in tight loop doing
- * 		OS_ENTER_CRITICAL / OS_EXIT_CRITICAL
- * 	C) Low priority tasks doing ping-pong sem wait/pend while another High Priority task gets ready
- * 		- Here the scheduler OS_Sched() is involved for every context switch
- *
- * Implementation:
- * OS_EXIT_CRITICAL is the perfect point for polling. Care must be take to avoid re-rentrancy
- * since some of the API are also relying on OS_EXIT_CRITICAL
- *
- */
-void exit_critical(void)
+void rollback(void)
 {
 	struct linux_task_struct dummy;
-	static int in_critical = 0;
-	u64 t;
-
-	if(in_critical)
-		return;
-
-	in_critical = 1;
-
-	if(rtos_dead){
-		linux_switch_to((void*)1, &dummy, &original_context);
-		/* NO return */
-		DIE(-1); /* Never reach */
-	}
-
-	t = get_monotonic_cycle();
-
-	poll_timer(t);
-
-	tick = t;
-
-	if( (t - prev) > cycle_per_os_tick){
-		prev = t;
-		OSIntEnter();
-//		PRINT("###");
-		OSTimeTick();
-		OSIntExit(); /* OSIntCtxSw to Task ready to run */
-	}
-
-	in_critical = 0;
+	linux_switch_to((void*)1, &dummy, &original_context);
 }

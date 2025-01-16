@@ -67,7 +67,8 @@ unsigned long get_monotonic_time(void);
 void schedule_work_absolute(work_t s1, int arg, unsigned long timestamp);
 
 void timer_isr(void);
-void poll_timer(cpu_cycle_t t);
+void poll_timer_wheel(cpu_cycle_t t)
+void poll(void);
 
 /******************************************************************************/
 /* Library initialization */

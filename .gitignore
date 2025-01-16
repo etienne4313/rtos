@@ -8,4 +8,4 @@ cscope*
 *.mod
 *.mod.c
 *.ko
-application/example/build*
+example/build/
